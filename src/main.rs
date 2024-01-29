@@ -8,9 +8,19 @@ fn main() {
     let query = &args[1];
     let file_path = &args[2];
 
-    println!("Searching for {}", query);
     println!("In file {}", file_path);
-    let contents = fs::read_to_string(file_path).expect("Couldn't Read File");
+    let contents = fs::read_to_string(file_path).expect("Could Not Read");
 
-    println!("contents: {}", contents); 
+    println!("contents:\n {}", contents); 
+
+    iterate(&contents);
+}
+
+fn iterate(s: &String) {
+    let mut i = 0;
+    while i < s.chars().count() {
+        let this = s.chars().nth(i);
+        println!("{}th char: {:?}\n", i, this);
+        i += 1;
+    }
 }
