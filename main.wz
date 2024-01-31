@@ -1,4 +1,6 @@
-func main() -> void {
-    var a = "Isaiah";
-    shout("Hello world ", a, "\n");
+func main() -> int {
+    var a = "Isaiah"
+    shout("Hello world ", a, "\n")
+
+    0;
 }
