@@ -1,6 +1,6 @@
 use std::env;
 use std::fs;
-pub mod tokenizer;
+mod tokenizer;
 
 fn main() {
     println!("Hello, world!\n");
@@ -11,5 +11,9 @@ fn main() {
 
     println!("contents:\n {}", contents); 
 
-    tokenizer::iterate(&contents);
+    let _tokens_list = tokenizer::tokenize(&contents);
+
+    for it in &_tokens_list {
+        println!("{:?}", it)
+    }
 }

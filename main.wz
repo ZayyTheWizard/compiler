@@ -1,5 +1,5 @@
-func main() -> int {
-    var a = "Isaiah"
+func main() void {
+    let a = "Isaiah"
     shout("Hello world ", a, "\n")
 
     0;
