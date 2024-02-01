@@ -10,6 +10,7 @@ enum TokenType {
     Shout,
     Ocurly,
     Ccurly,
+    Eq,
 }
 
 #[derive(Debug)]
@@ -35,6 +36,7 @@ pub fn tokenize (s: &String) -> Vec<Tokens> {
 
         match cache.as_str() {
             "func" => {tokens_list.push(Tokens { token_type: TokenType::Func }); cache.clear();},
+            "=" => {tokens_list.push(Tokens { token_type: TokenType::Eq }); cache.clear();},
             "{" => {tokens_list.push(Tokens { token_type: TokenType::Ocurly}); cache.clear();},
             "}" => {tokens_list.push(Tokens { token_type: TokenType::Ccurly}); cache.clear();},
             "(" => {tokens_list.push(Tokens { token_type: TokenType::Oparan }); cache.clear();},
