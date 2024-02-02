@@ -23,6 +23,20 @@ pub fn tokenize (s: &String) -> Vec<Tokens> {
     let mut cache = String::new();
 
     for c in s.chars() {
+        if (c == ('(') || c == (')'))  && !cache.is_empty() {
+            tokens_list.push(Tokens {
+                token_type: TokenType::Identifier(cache.clone()),
+            });
+            cache.clear();
+            cache.push(c);
+            match cache.as_str() {
+                "(" => {tokens_list.push(Tokens { token_type: TokenType::Oparan }); cache.clear();},
+                ")" => {tokens_list.push(Tokens { token_type: TokenType::Cparan }); cache.clear();},
+                _ => {}
+            }
+            cache.clear();
+            continue;
+        }
         if c.is_ascii_whitespace(){
             if !cache.is_empty() {
                 tokens_list.push(Tokens {
