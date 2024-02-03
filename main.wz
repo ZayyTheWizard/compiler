@@ -1,5 +1,6 @@
 func main() void {
     let a = "Isaiah"
+    let b = 4 + 20 + (6 * 9)
     shout("Hello world ", a, "\n")
 
     0;
