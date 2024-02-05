@@ -1,7 +1,12 @@
-func main() void {
+func hello_world() void {
     let a = "Isaiah"
-    let b = 4 + 20 + (6 * 9)
-    shout("Hello world ", a, "\n")
 
+    shout("Hello world ", a, "\n")
+}
+
+func main() int {
+    let b = 4 + 20 + (6 * 9)
+    
+    hello_world()
     0;
 }
