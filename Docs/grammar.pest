@@ -33,7 +33,7 @@ OpMinEq     = { "-=" }
 OpPlusEq    = { "+=" }
 Comma       = { "," }
 
-Ident     =  { ASCII_ALPHA ~ (ASCII_ALPHANUMERIC)+ }
+Ident     =  { ASCII_ALPHA ~ (ASCII_ALPHANUMERIC)+ | ASCII_ALPHA}
 IntLit    = @{ ("-"? ~ ASCII_DIGIT)+ }
 float     = @{ (ASCII_DIGIT)+ ~ "." ~ (ASCII_DIGIT)+ }
 StringLit = @{ "\"" ~ (ASCII_ALPHANUMERIC | " ")* ~ "\"" }
