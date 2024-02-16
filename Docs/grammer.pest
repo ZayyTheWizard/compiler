@@ -1,39 +1,42 @@
-Progam = _{SOI ~ Function ~ EOI}
+Progam = _{ SOI ~ (Function)+ ~ EOI }
 
-Function = {"func" ~ Ident ~ OBrac ~ (Ident ~ "," | Ident) ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)*} 
-Statement = {IF | WHILE | FOR | LetDec | Expression}
+Function  = { "func" ~ Ident ~ OBrac ~ (Ident ~ "," | Ident)* ~ CBrac ~ (Ocurly ~ (Statement)* ~ Ccurly) }
+Statement = { IF | WHILE | FOR | LetDec | Expression }
 
-Expression = {IntLit | StringLit | float | Ident | FuncCallExpr | BinaryExpr}
-	FuncCallExpr = {Expression ~ OBrac ~ (Expression ~ "," | Expression) ~ CBrac}
-	BinaryExpr = {Expression ~ BinaryOp ~ Expression}
+Expression   = { IntLit | StringLit | float | Ident | FuncCallExpr | BinaryExpr | "+=" ~ Expression | "-=" ~ Expression }
+FuncCallExpr = { PrimaryExpr ~ OBrac ~ (Expression ~ "," | Expression) ~ CBrac }
+BinaryExpr   = { PrimaryExpr ~ BinaryOp ~ Expression }
 
-IF = {"if"  ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)}
-FOR = {"for" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)}
-WHILE = {"while" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)}
-RETURN = {"return" ~ Expression ~ ";"}
-LetDec = {"let" ~ Ident ~ "=" ~ Expression | "let" ~ Ident}
+PrimaryExpr = { IntLit | StringLit | float | Ident | "(" ~ Expression ~ ")" }
 
-Ocurly = {"{"}
-Ccurly = {"}"}
-OBrac = {"("}
-CBrac = {")"}
+IF     = { "if" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly) }
+FOR    = { "for" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly) }
+WHILE  = { "while" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly) }
+RETURN = { "return" ~ Expression ~ ";" }
+LetDec = { "let" ~ Ident ~ "=" ~ Expression | "let" ~ Ident }
 
-BinaryOp = {OpOr | OpAnd | OpLess | OpLessEq | OpGreater | OpGreaterEq | OpNotEq | OpEq | OpMinEq | OpPlusEq | ","}
-	OpOr = {"||" | "or" }
-	OpAnd = {"&&" | "and" }
-	OpLess = {"<"}
-	OpLessEq = {"<="}
-	OpGreater = {">"}
-	OpGreaterEq = {">="}
-	OpNotEq = {"!="}
-	OpEq = {"=="}
-	OpMinEq = {"-="}
-	OpPlusEq = {"+="}
+Ocurly = { "{" }
+Ccurly = { "}" }
+OBrac  = { "(" }
+CBrac  = { ")" }
 
-Ident = {ASCII_ALPHA ~ (ASCII_ALPHANUMERIC)+}
-IntLit = @{(ASCII_DIGIT)+}
-float = @{(ASCII_DIGIT)+ ~ "." ~ (ASCII_DIGIT)+}
-StringLit = @{"\"" ~ (ASCII_ALPHANUMERIC | " ")* ~ "\""}
+BinaryOp    = { OpOr | OpAnd | OpLess | OpLessEq | OpGreater | OpGreaterEq | OpNotEq | OpEq | OpMinEq | OpPlusEq | Comma }
+OpOr        = { "||" | "or" }
+OpAnd       = { "&&" | "and" }
+OpLess      = { "<" }
+OpLessEq    = { "<=" }
+OpGreater   = { ">" }
+OpGreaterEq = { ">=" }
+OpNotEq     = { "!=" }
+OpEq        = { "==" }
+OpMinEq     = { "-=" }
+OpPlusEq    = { "+=" }
+Comma       = { "," }
 
-COMMENT = _{"//" ~ WHITESPACE}
-WHITESPACE = _{" " | "\n" | "\t"}
+Ident     =  { ASCII_ALPHA ~ (ASCII_ALPHANUMERIC)+ }
+IntLit    = @{ ("-"? ~ ASCII_DIGIT)+ }
+float     = @{ (ASCII_DIGIT)+ ~ "." ~ (ASCII_DIGIT)+ }
+StringLit = @{ "\"" ~ (ASCII_ALPHANUMERIC | " ")* ~ "\"" }
+
+COMMENT    = _{ "//" ~ WHITESPACE }
+WHITESPACE = _{ " " | "\n" | "\t" }
