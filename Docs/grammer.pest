@@ -1,0 +1,39 @@
+Progam = _{SOI ~ Function ~ EOI}
+
+Function = {"func" ~ Ident ~ OBrac ~ (Ident ~ "," | Ident) ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)*} 
+Statement = {IF | WHILE | FOR | LetDec | Expression}
+
+Expression = {IntLit | StringLit | float | Ident | FuncCallExpr | BinaryExpr}
+	FuncCallExpr = {Expression ~ OBrac ~ (Expression ~ "," | Expression) ~ CBrac}
+	BinaryExpr = {Expression ~ BinaryOp ~ Expression}
+
+IF = {"if"  ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)}
+FOR = {"for" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)}
+WHILE = {"while" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly)}
+RETURN = {"return" ~ Expression ~ ";"}
+LetDec = {"let" ~ Ident ~ "=" ~ Expression | "let" ~ Ident}
+
+Ocurly = {"{"}
+Ccurly = {"}"}
+OBrac = {"("}
+CBrac = {")"}
+
+BinaryOp = {OpOr | OpAnd | OpLess | OpLessEq | OpGreater | OpGreaterEq | OpNotEq | OpEq | OpMinEq | OpPlusEq | ","}
+	OpOr = {"||" | "or" }
+	OpAnd = {"&&" | "and" }
+	OpLess = {"<"}
+	OpLessEq = {"<="}
+	OpGreater = {">"}
+	OpGreaterEq = {">="}
+	OpNotEq = {"!="}
+	OpEq = {"=="}
+	OpMinEq = {"-="}
+	OpPlusEq = {"+="}
+
+Ident = {ASCII_ALPHA ~ (ASCII_ALPHANUMERIC)+}
+IntLit = @{(ASCII_DIGIT)+}
+float = @{(ASCII_DIGIT)+ ~ "." ~ (ASCII_DIGIT)+}
+StringLit = @{"\"" ~ (ASCII_ALPHANUMERIC | " ")* ~ "\""}
+
+COMMENT = _{"//" ~ WHITESPACE}
+WHITESPACE = _{" " | "\n" | "\t"}
