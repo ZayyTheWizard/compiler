@@ -2,6 +2,7 @@ use std::env;
 use std::fs;
 use std::process::ExitCode;
 mod tokenizer;
+mod parser;
 
 fn main() -> ExitCode {
     // Taking in source code as arguments
@@ -19,12 +20,13 @@ fn main() -> ExitCode {
 
     let contents = fs::read_to_string(file_path).expect("Could Not Read");
 
-    // Converting to tokens
+    parser::print_ok(&contents);
+    /* Converting to tokens
     let _tokens_list = tokenizer::tokenize(&contents);
 
     for it in &_tokens_list {
         println!("{:?}", it)
     }
-
+    */
     return ExitCode::SUCCESS;
 }

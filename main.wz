@@ -1,12 +1,11 @@
-func hello_world() void {
-    let a = "Isaiah"
-
-    shout("Hello world ", a, "\n")
-}
-
-func main() int {
+func main() {
+    let a = "My Name is Isaiah"
     let b = 4 + 20 + (6 * 9)
     
+    if (1 < 2) {
+        return 1;
+    }
+    
     hello_world()
-    0;
+    return 0;
 }

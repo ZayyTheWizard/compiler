@@ -1,4 +1,4 @@
-Progam = _{ SOI ~ (Function)+ ~ EOI }
+Program = _{ SOI ~ (Function)+ ~ EOI }
 
 Function  = { "func" ~ Ident ~ OBrac ~ (Ident ~ "," | Ident)* ~ CBrac ~ (Ocurly ~ (Statement)* ~ Ccurly) }
 Statement = { IF | WHILE | FOR | LetDec | Expression }
