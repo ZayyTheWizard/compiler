@@ -5,7 +5,15 @@ func main() {
     if (1 < 2) {
         return 1;
     }
+
+    for i = 0; i < c.size(); i+=1 {
+        b+=4
+    }
+
+    while(true) {
+        return false;
+    }
     
     hello_world()
-    return 0;
+    return b;
 }

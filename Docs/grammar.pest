@@ -1,42 +1,38 @@
-Program = _{ SOI ~ (Function)+ ~ EOI }
+// Whitespace rule
+WHITESPACE = _{ " " | "\t" | "\n" }
 
-Function  = { "func" ~ Ident ~ OBrac ~ (Ident ~ "," | Ident)* ~ CBrac ~ (Ocurly ~ (Statement)* ~ Ccurly) }
-Statement = { IF | WHILE | FOR | LetDec | Expression }
+// Keywords
+keyword = _{ "let" | "if" | "for" | "while" | "return" | "func" | "main" | "true" | "false" }
 
-Expression   = { IntLit | StringLit | float | Ident | FuncCallExpr | BinaryExpr | "+=" ~ Expression | "-=" ~ Expression }
-FuncCallExpr = { PrimaryExpr ~ OBrac ~ (Expression ~ "," | Expression) ~ CBrac }
-BinaryExpr   = { PrimaryExpr ~ BinaryOp ~ Expression }
+// Identifiers
+identifier = @{ (ASCII_ALPHA | "_") ~ (ASCII_ALPHANUMERIC | "_")* }
 
-PrimaryExpr = { IntLit | StringLit | float | Ident | "(" ~ Expression ~ ")" }
+// Literals
+string = @{ "\"" ~ (identifier ~ WHITESPACE | identifier)* ~ "\"" }
+number = @{ ASCII_DIGIT+ }
+bool = @{"true" | "false"}
+float = @{ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+}
 
-IF     = { "if" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly) }
-FOR    = { "for" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly) }
-WHILE  = { "while" ~ OBrac ~ Expression ~ CBrac ~ (Ocurly ~ Statement ~ Ccurly) }
-RETURN = { "return" ~ Expression ~ ";" }
-LetDec = { "let" ~ Ident ~ "=" ~ Expression | "let" ~ Ident }
+// Operators
+operator = _{ "+" | "-" | "*" | "/" | "<" | ">" | "=" | "==" | "+=" | "<=" | ">="}
 
-Ocurly = { "{" }
-Ccurly = { "}" }
-OBrac  = { "(" }
-CBrac  = { ")" }
+// Punctuation
+punctuation = _{ "[" | "]" | "{" | "}" | "(" | ")" | ";" | "," }
 
-BinaryOp    = { OpOr | OpAnd | OpLess | OpLessEq | OpGreater | OpGreaterEq | OpNotEq | OpEq | OpMinEq | OpPlusEq | Comma }
-OpOr        = { "||" | "or" }
-OpAnd       = { "&&" | "and" }
-OpLess      = { "<" }
-OpLessEq    = { "<=" }
-OpGreater   = { ">" }
-OpGreaterEq = { ">=" }
-OpNotEq     = { "!=" }
-OpEq        = { "==" }
-OpMinEq     = { "-=" }
-OpPlusEq    = { "+=" }
-Comma       = { "," }
+// Expressions and statements
+expression = _{UnaryExpr | BinaryExpr | number | string | "(" ~ expression ~ ")" }
+UnaryExpr = { operator ~ number }
+BinaryExpr = { number ~ (operator ~ expression)+ | identifier ~ (operator ~ expression)+}
+statement  =  {
+    "let" ~ identifier ~ "=" ~ expression
+  | "if" ~ "(" ~ expression ~ ")" ~ "{" ~ statement* ~ "}"
+  | "for" ~ identifier ~ "=" ~ expression ~ ";" ~ expression ~ ";" ~ expression ~ "{" ~ statement* ~ "}"
+  | "while" ~ "(" ~ expression ~ ")" ~ "{" ~ statement* ~ "}"
+  | "return" ~ expression ~ ";"
+}
 
-Ident     =  { ASCII_ALPHA ~ (ASCII_ALPHANUMERIC)+ | ASCII_ALPHA}
-IntLit    = @{ ("-"? ~ ASCII_DIGIT)+ }
-float     = @{ (ASCII_DIGIT)+ ~ "." ~ (ASCII_DIGIT)+ }
-StringLit = @{ "\"" ~ (ASCII_ALPHANUMERIC | " ")* ~ "\"" }
+// Main function
+main_function = { "func" ~ "main" ~ "(" ~ ")" ~ "{" ~ statement* ~ "}" }
 
-COMMENT    = _{ "//" ~ WHITESPACE }
-WHITESPACE = _{ " " | "\n" | "\t" }
+// Program
+program = { SOI ~ main_function ~ EOI }
