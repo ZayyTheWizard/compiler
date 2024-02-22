@@ -20,7 +20,7 @@ operator = _{ "+" | "-" | "*" | "/" | "<" | ">" | "=" | "==" | "+=" | "<=" | ">=
 punctuation = _{ "[" | "]" | "{" | "}" | "(" | ")" | ";" | "," }
 
 // Expressions and statements
-expression = _{UnaryExpr | BinaryExpr | number | string | "(" ~ expression ~ ")" }
+expression = _{UnaryExpr | BinaryExpr | number | string | "(" ~ expression ~ ")" | identifier ~ "." ~ identifier ~ "(" ~ ")" | bool | identifier}
 UnaryExpr = { operator ~ number }
 BinaryExpr = { number ~ (operator ~ expression)+ | identifier ~ (operator ~ expression)+}
 statement  =  {
@@ -29,6 +29,8 @@ statement  =  {
   | "for" ~ identifier ~ "=" ~ expression ~ ";" ~ expression ~ ";" ~ expression ~ "{" ~ statement* ~ "}"
   | "while" ~ "(" ~ expression ~ ")" ~ "{" ~ statement* ~ "}"
   | "return" ~ expression ~ ";"
+  | identifier ~ operator ~ expression 
+  | identifier ~ "(" ~ ")"
 }
 
 // Main function

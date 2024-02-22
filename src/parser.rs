@@ -6,9 +6,6 @@ use pest_derive::Parser;
 pub struct MyParser;
 
 pub fn print_ok(source: &String) {
-    let successful_parse = MyParser::parse(Rule::Program, source);
+    let successful_parse = MyParser::parse(Rule::program, source);
     println!("{:?}", successful_parse);
-
-    let unsuccessful_parse = MyParser::parse(Rule::Program, source);
-    println!("{:?}", unsuccessful_parse);
 }
